@@ -246,7 +246,7 @@ async function main() {
     const buildingId =
       selectedBuilding === "all"
         ? undefined
-        : parseInt((selectedBuilding as string).split("-")[1]);
+        : parseInt((selectedBuilding as string).split("-")[1] || "0");
 
     // 步骤 4: 输入日期
     const dateInput = await p.text({
@@ -352,7 +352,7 @@ async function main() {
       process.exit(0);
     }
 
-    const [courseId, subId] = (selectedCourse as string).split("-");
+    const [courseId = "", subId = ""] = (selectedCourse as string).split("-");
 
     // 步骤 8: 获取视频地址
     s.start("获取视频地址...");
@@ -382,6 +382,11 @@ async function main() {
 
     // 显示结果
     const courseInfo = videoResponse.list[0];
+    if (!courseInfo) {
+      p.cancel("未找到课程信息");
+      process.exit(1);
+    }
+
     const videoType = videoUrl.includes(".m3u8") ? "m3u8" : "mp4";
 
     p.note(videoUrl, "视频地址");

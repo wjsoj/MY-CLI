@@ -26,13 +26,16 @@ export function extractVideoUrl(videoResponse: VideoResponse): string | null {
   if (
     !videoResponse.list ||
     videoResponse.list.length === 0 ||
-    !videoResponse.list[0].sub_content
+    !videoResponse.list[0]?.sub_content
   ) {
     return null;
   }
 
   try {
-    const subContent = JSON.parse(videoResponse.list[0].sub_content);
+    const subContentStr = videoResponse.list[0].sub_content;
+    if (!subContentStr) return null;
+
+    const subContent = JSON.parse(subContentStr);
     const savePlayback = subContent.save_playback;
 
     if (savePlayback && savePlayback.contents) {

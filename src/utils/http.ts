@@ -157,7 +157,7 @@ export function generateVideoFilename(
   extension: string
 ): string {
   // 只取日期部分并替换所有斜杠为短横线
-  const dateStr = date.split(" ")[0].replace(/\//g, "-"); // 2025/09/26 -> 2025-09-26
+  const dateStr = (date.split(" ")[0] || date).replace(/\//g, "-"); // 2025/09/26 -> 2025-09-26
   const cleanCourseName = sanitizeFilename(courseName);
   const cleanTeacherName = sanitizeFilename(teacherName);
 
